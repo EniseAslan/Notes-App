@@ -1,6 +1,8 @@
 import { useState } from "react";
 import NoteList from "./components/NoteList";
 import NoteForm from "./components/NoteForm";
+import SearchBar from "./components/SearchBar";
+
 function App() {
   const [notes, setNotes] = useState([
     { id: 1, title: "Alışveriş Listesi", content: "Süt, ekmek, makarna" },
@@ -9,6 +11,11 @@ function App() {
   ]);
   const [form, setForm] = useState({ title: "", content: "" });
   const [editingId, setEditingId] = useState(null);
+  const [search, setSearch] = useState("");
+
+  const visibleNotes = notes.filter((n) =>
+  n.title.toLowerCase().includes(search.toLowerCase())
+);
 
   const saveNote = () => {
     if (!form.title.trim()) return;
@@ -42,7 +49,8 @@ function App() {
       <div className="max-w-2xl mx-auto">
         <h1 className="text-3xl font-bold text-stone-800 mb-6">🍂 Notes App</h1>
         <NoteForm form={form} onChange={setForm} onSave={saveNote} isEditing={editingId !== null} />
-        <NoteList notes={notes} onDelete={deleteNote} onEdit={startEdit}/>
+        <SearchBar search={search} onSearchChange={setSearch}/>
+        <NoteList notes={visibleNotes} onDelete={deleteNote} onEdit={startEdit}/>
       </div>
     </div>
   );

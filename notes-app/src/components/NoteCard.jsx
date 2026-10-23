@@ -15,7 +15,7 @@ function NoteCard({ note, index,onDelete, onEdit }) {
         <span className="text-xl">{emoji}</span>
         {note.title}
       </h2>
-      <p className="text-stone-600 text-sm">{note.content}</p>
+      <p className="text-stone-600 text-m">{note.content}</p>
       <div className="flex justify-end gap-2 mt-3">
          <button
           onClick={() => onEdit(note)}
