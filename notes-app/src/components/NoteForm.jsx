@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { colorOptions, colorLabels } from "../constants";
 export default function NoteForm({ form, onChange, onSave,isEditing }) {
   const [error, setError] = useState("");
 
@@ -43,6 +43,27 @@ export default function NoteForm({ form, onChange, onSave,isEditing }) {
         rows={3}
         className="w-full border border-stone-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-amber-300"
       />
+
+<div className="flex items-center gap-3">
+  <label className="text-sm text-stone-600 shrink-0">Renk</label>
+  <div className="flex gap-2">
+    {Object.keys(colorOptions).map((color) => (
+      <button
+        key={color}
+        type="button"
+        onClick={() => onChange({ ...form, color })}
+        className={`w-8 h-8 rounded-full border-2 transition ${
+          colorOptions[color]
+        } ${form.color === color ? "ring-2 ring-offset-2 ring-stone-500" : ""}`}
+        title={colorLabels[color]}
+      />
+    ))}
+  </div>
+</div>
+
+
+
+
       {error && (
          <p className="text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 flex items-center gap-2">
      {error}

@@ -1,17 +1,24 @@
-import NoteCard from './NoteCard'
+import NoteCard from "./NoteCard";
 
-function NoteList({notes, onDelete, onEdit}) {
-   if (notes.length === 0) {
+function NoteList({ notes, onDelete, onEdit, onTogglePin }) {
+  if (notes.length === 0) {
     return <p className="text-stone-500">Not bulunamadı.</p>;
   }
 
   return (
     <div className="space-y-3">
       {notes.map((note, index) => (
-        <NoteCard key={note.id} note={note} index={index} onDelete={onDelete} onEdit={onEdit}/>
+        <NoteCard
+          key={note.id}
+          note={note}
+          index={index}
+          onDelete={onDelete}
+          onEdit={onEdit}
+          onTogglePin={onTogglePin}
+        />
       ))}
     </div>
   );
 }
 
-export default NoteList
+export default NoteList;
