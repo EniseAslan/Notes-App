@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function NoteForm({ form, onChange, onSave }) {
+export default function NoteForm({ form, onChange, onSave,isEditing }) {
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
@@ -48,11 +48,15 @@ export default function NoteForm({ form, onChange, onSave }) {
      {error}
   </p>
       )}
-      <button
+       <button
         type="submit"
-        className="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition"
+        className={`text-white px-4 py-2 rounded-lg transition ${
+          isEditing
+            ? "bg-teal-600 hover:bg-teal-700"
+            : "bg-amber-600 hover:bg-amber-700"
+        }`}
       >
-        Kaydet
+        {isEditing ? "Güncelle" : "Kaydet"}
       </button>
     </form>
   );
