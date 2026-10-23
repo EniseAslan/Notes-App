@@ -1,4 +1,4 @@
-function NoteCard({ note, index }) {
+function NoteCard({ note, index,onDelete }) {
   const cardColors = [
     "bg-amber-100 border-amber-300",
     "bg-stone-200 border-stone-400",
@@ -15,6 +15,14 @@ function NoteCard({ note, index }) {
         {note.title}
       </h2>
       <p className="text-stone-600 text-sm">{note.content}</p>
+      <div className="flex justify-end mt-3">
+        <button
+          onClick={() => onDelete(note.id)}
+          className="text-sm px-3 py-1 rounded-lg bg-orange-600 text-white hover:bg-red-600 transition"
+        >
+          Delete
+        </button>
+      </div>
     </div>
   );
 }

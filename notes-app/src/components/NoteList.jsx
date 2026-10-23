@@ -1,6 +1,6 @@
 import NoteCard from './NoteCard'
 
-function NoteList({notes}) {
+function NoteList({notes, onDelete}) {
    if (notes.length === 0) {
     return <p className="text-stone-500">Not bulunamadı.</p>;
   }
@@ -8,7 +8,7 @@ function NoteList({notes}) {
   return (
     <div className="space-y-3">
       {notes.map((note, index) => (
-        <NoteCard key={note.id} note={note} index={index} />
+        <NoteCard key={note.id} note={note} index={index} onDelete={onDelete}/>
       ))}
     </div>
   );
