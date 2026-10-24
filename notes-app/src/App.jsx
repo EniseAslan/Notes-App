@@ -2,31 +2,36 @@ import { useState, useEffect } from "react";
 import NoteList from "./components/NoteList";
 import NoteForm from "./components/NoteForm";
 import SearchBar from "./components/SearchBar";
+import SortToggle from "./components/SortToggle";
+
+
 
 function App() {
   const defaultNotes = [
-    {
-      id: 1,
-      title: "Alışveriş Listesi",
-      content: "Süt, ekmek, makarna",
-      pinned: false,
-      color: "amber",
-    },
-    {
-      id: 2,
-      title: "Toplantı",
-      content: "Salı günleri 11.00",
-      pinned: false,
-      color: "stone",
-    },
-    {
-      id: 3,
-      title: "Çalışma",
-      content: "React'a 3 saat çalış",
-      pinned: false,
-      color: "orange",
-    },
-  ];
+  {
+    id: 1,
+    title: "Alışveriş Listesi",
+    content: "Süt, ekmek, makarna",
+    pinned: false,
+    color: "amber",
+  },
+  {
+    id: 2,
+    title: "Toplantı",
+    content: "Salı günleri 11.00",
+    pinned: false,
+    color: "stone",
+  },
+  {
+    id: 3,
+    title: "Çalışma",
+    content: "React'a 3 saat çalış",
+    pinned: false,
+    color: "orange",
+  },
+];
+
+
   const [notes, setNotes] = useState(() => {
     try {
       const saved = localStorage.getItem("notes");
@@ -36,17 +41,21 @@ function App() {
     }
   });
 
+  const [form, setForm] = useState({ title: "", content: "", color: "amber" });
+  const [editingId, setEditingId] = useState(null);
+  const [search, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState("newest");
+
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
 
-  const [form, setForm] = useState({ title: "", content: "", color: "amber" });
-  const [editingId, setEditingId] = useState(null);
-  const [search, setSearch] = useState("");
-
   const visibleNotes = notes
     .filter((n) => n.title.toLowerCase().includes(search.toLowerCase()))
-    .sort((a, b) => Number(b.pinned) - Number(a.pinned));
+    .sort((a, b) => {
+      if (a.pinned !== b.pinned) return Number(b.pinned) - Number(a.pinned);
+      return sortBy === "newest" ? b.id - a.id : a.id - b.id;
+    });
 
   const saveNote = () => {
     if (!form.title.trim()) return;
@@ -55,7 +64,7 @@ function App() {
       setNotes((prev) => [...prev, { id: Date.now(), pinned: false, ...form }]);
     } else {
       setNotes((prev) =>
-        prev.map((n) => (n.id === editingId ? { ...n, ...form } : n)),
+        prev.map((n) => (n.id === editingId ? { ...n, ...form } : n))
       );
       setEditingId(null);
     }
@@ -77,7 +86,7 @@ function App() {
 
   const togglePin = (id) => {
     setNotes((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, pinned: !n.pinned } : n)),
+      prev.map((n) => (n.id === id ? { ...n, pinned: !n.pinned } : n))
     );
   };
 
@@ -92,6 +101,7 @@ function App() {
           isEditing={editingId !== null}
         />
         <SearchBar search={search} onSearchChange={setSearch} />
+        <SortToggle sortBy={sortBy} onSortChange={setSortBy} />
         <NoteList
           notes={visibleNotes}
           onDelete={deleteNote}
