@@ -16,6 +16,7 @@ export default function NoteCard({ note, index, onEdit, onDelete, onTogglePin })
 
       <div className="flex justify-end gap-2 mt-3">
         <button
+          type="button"
           onClick={() => onTogglePin(note.id)}
           className={`text-sm px-3 py-1 rounded-lg transition ${
             note.pinned
@@ -23,17 +24,19 @@ export default function NoteCard({ note, index, onEdit, onDelete, onTogglePin })
               : "bg-stone-300 text-stone-700 hover:bg-stone-400"
           }`}
         >
-          {note.pinned ? "Sabitle" : "Sabiti Kaldır"}
+          {note.pinned ? "Sabiti Kaldır" : "Sabitle"}
         </button>
         <button
+          type="button"
           onClick={() => onEdit(note)}
-          className="text-sm px-3 py-1 rounded-lg bg-orange-600 text-white hover:bg-blue-600 transition"
+          className="text-sm px-3 py-1 rounded-lg bg-orange-600 text-white hover:bg-orange-700 transition"
         >
           Düzenle
         </button>
         <button
+          type="button"
           onClick={() => onDelete(note.id)}
-          className="text-sm px-3 py-1 rounded-lg bg-stone-600 text-white hover:bg-red-600 transition"
+          className="text-sm px-3 py-1 rounded-lg bg-stone-600 text-white hover:bg-stone-700 transition"
         >
           Sil
         </button>

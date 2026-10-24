@@ -4,38 +4,19 @@ import NoteForm from "./components/NoteForm";
 import SearchBar from "./components/SearchBar";
 import SortToggle from "./components/SortToggle";
 
-
-
-function App() {
-  const defaultNotes = [
-  {
-    id: 1,
-    title: "Alışveriş Listesi",
-    content: "Süt, ekmek, makarna",
-    pinned: false,
-    color: "amber",
-  },
-  {
-    id: 2,
-    title: "Toplantı",
-    content: "Salı günleri 11.00",
-    pinned: false,
-    color: "stone",
-  },
-  {
-    id: 3,
-    title: "Çalışma",
-    content: "React'a 3 saat çalış",
-    pinned: false,
-    color: "orange",
-  },
+const defaultNotes = [
+  { id: 1, title: "Alışveriş Listesi", content: "Süt, ekmek, makarna", pinned: false, color: "amber" },
+  { id: 2, title: "Toplantı", content: "Salı günleri 11.00", pinned: false, color: "stone" },
+  { id: 3, title: "Çalışma", content: "React'a 3 saat çalış", pinned: false, color: "orange" },
 ];
 
-
+function App() {
   const [notes, setNotes] = useState(() => {
     try {
       const saved = localStorage.getItem("notes");
-      return saved ? JSON.parse(saved) : defaultNotes;
+      if (!saved) return defaultNotes;
+      const parsed = JSON.parse(saved);
+      return parsed.map((n) => ({ pinned: false, color: "amber", ...n }));
     } catch {
       return defaultNotes;
     }
@@ -53,13 +34,14 @@ function App() {
   const visibleNotes = notes
     .filter((n) => n.title.toLowerCase().includes(search.toLowerCase()))
     .sort((a, b) => {
-      if (a.pinned !== b.pinned) return Number(b.pinned) - Number(a.pinned);
+      const aPin = Boolean(a.pinned);
+      const bPin = Boolean(b.pinned);
+      if (aPin !== bPin) return bPin - aPin; // pinli önce
       return sortBy === "newest" ? b.id - a.id : a.id - b.id;
     });
 
   const saveNote = () => {
     if (!form.title.trim()) return;
-
     if (editingId === null) {
       setNotes((prev) => [...prev, { id: Date.now(), pinned: false, ...form }]);
     } else {
