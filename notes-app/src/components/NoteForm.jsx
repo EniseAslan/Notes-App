@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { colorOptions, colorLabels } from "../constants";
-export default function NoteForm({ form, onChange, onSave,isEditing }) {
+import { themes } from "../constants";
+
+export default function NoteForm({ form, onChange, onSave, isEditing }) {
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     onChange({ ...form, [name]: value });
-    if (error) setError(""); 
+    if (error) setError("");
   };
 
   const handleSubmit = (e) => {
@@ -44,32 +45,34 @@ export default function NoteForm({ form, onChange, onSave,isEditing }) {
         className="w-full border border-stone-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-amber-300"
       />
 
-<div className="flex items-center gap-3">
-  <label className="text-sm text-stone-600 shrink-0">Renk</label>
-  <div className="flex gap-2">
-    {Object.keys(colorOptions).map((color) => (
-      <button
-        key={color}
-        type="button"
-        onClick={() => onChange({ ...form, color })}
-        className={`w-8 h-8 rounded-full border-2 transition ${
-          colorOptions[color]
-        } ${form.color === color ? "ring-2 ring-offset-2 ring-stone-500" : ""}`}
-        title={colorLabels[color]}
-      />
-    ))}
-  </div>
-</div>
-
-
-
+      {/* Tema seçici — renk + emoji birlikte */}
+      <div className="flex items-center gap-3">
+        <label className="text-sm text-stone-600 shrink-0">Tema</label>
+        <div className="flex gap-2 flex-wrap">
+          {Object.entries(themes).map(([key, theme]) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => onChange({ ...form, theme: key })}
+              className={`flex items-center gap-1 px-3 py-1.5 rounded-lg border-2 text-sm transition ${theme.card} ${
+                form.theme === key
+                  ? "ring-2 ring-offset-2 ring-stone-500"
+                  : "opacity-70 hover:opacity-100"
+              }`}
+            >
+              <span className="text-base">{theme.emoji}</span>
+              <span className="text-stone-700">{theme.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
 
       {error && (
-         <p className="text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 flex items-center gap-2">
-     {error}
-  </p>
+        <p className="text-sm text-red-600 flex items-center gap-1">
+          ⚠️ {error}
+        </p>
       )}
-       <button
+      <button
         type="submit"
         className={`text-white px-4 py-2 rounded-lg transition ${
           isEditing

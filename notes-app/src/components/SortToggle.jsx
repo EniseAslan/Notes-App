@@ -7,7 +7,7 @@ export default function SortToggle({ sortBy, onSortChange }) {
         className={`text-sm px-3 py-1 rounded-lg transition ${
           sortBy === "newest"
             ? "bg-amber-600 text-white"
-            : "bg-stone-200 text-stone-700 hover:bg-stone-300"
+            : "bg-stone-300 text-stone-700 hover:bg-stone-400"
         }`}
       >
         Yeniden Eskiye
@@ -18,7 +18,7 @@ export default function SortToggle({ sortBy, onSortChange }) {
         className={`text-sm px-3 py-1 rounded-lg transition ${
           sortBy === "oldest"
             ? "bg-amber-600 text-white"
-            : "bg-stone-200 text-stone-700 hover:bg-stone-300"
+            : "bg-stone-300 text-stone-700 hover:bg-stone-400"
         }`}
       >
         Eskiden Yeniye

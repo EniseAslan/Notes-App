@@ -1,14 +1,12 @@
-import { colorOptions } from "../constants";
+import { themes } from "../constants";
 
-const noteEmojis = ["🍂", "☕", "📌", "🌰"];
-
-export default function NoteCard({ note, index, onEdit, onDelete, onTogglePin }) {
-  const emoji = noteEmojis[index % noteEmojis.length];
+export default function NoteCard({ note, onEdit, onDelete, onTogglePin }) {
+  const theme = themes[note.theme] || themes.amber;
 
   return (
-    <div className={`p-4 rounded-xl border shadow-sm ${colorOptions[note.color]}`}>
+    <div className={`p-4 rounded-xl border shadow-sm ${theme.card}`}>
       <h2 className="font-semibold text-stone-800 flex items-center gap-2">
-        <span className="text-xl">{emoji}</span>
+        <span className="text-xl">{theme.emoji}</span>
         {note.title}
         {note.pinned && <span className="text-sm">📌</span>}
       </h2>
@@ -21,7 +19,7 @@ export default function NoteCard({ note, index, onEdit, onDelete, onTogglePin })
           className={`text-sm px-3 py-1 rounded-lg transition ${
             note.pinned
               ? "bg-amber-500 text-white hover:bg-amber-600"
-              : "bg-stone-300 text-stone-700 hover:bg-stone-400"
+              : "bg-stone-400 text-white hover:bg-stone-400"
           }`}
         >
           {note.pinned ? "Sabiti Kaldır" : "Sabitle"}

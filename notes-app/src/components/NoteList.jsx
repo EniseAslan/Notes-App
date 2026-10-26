@@ -7,11 +7,10 @@ function NoteList({ notes, onDelete, onEdit, onTogglePin }) {
 
   return (
     <div className="space-y-3">
-      {notes.map((note, index) => (
+      {notes.map((note) => (
         <NoteCard
           key={note.id}
           note={note}
-          index={index}
           onDelete={onDelete}
           onEdit={onEdit}
           onTogglePin={onTogglePin}
